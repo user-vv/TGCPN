@@ -54,5 +54,5 @@ bash scripts/dist_train.sh --cfg_file ./cfgs/kitti_models/voxset_context_awar.ya
 
 ```shell
 cd TGCPN/tools
-python test.py --cfg_file --cfg_file ./cfgs/kitti_models/voxset.yaml --ckpt ${CKPT_FILE}
+python test.py --cfg_file --cfg_file ./cfgs/kitti_models/voxset_context_awar.yaml --ckpt ${CKPT_FILE}
 ```
