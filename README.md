@@ -40,13 +40,14 @@ python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/datas
 - Train with a single GPU （The cfg file is voxset_context_awar, and the 3D backbone is located in VoxSeT\pcdet\models\backbones_3d\vfe.）
 
 ```shell
+cd TGCPN/tools
 python train.py --cfg_file tools/cfgs/kitti_models/voxset_context_awar.yaml
 ```
 
 - Train with multiple GPUs 
 
 ```shell
-cd VoxSeT/tools
+cd TGCPN/tools
 bash scripts/dist_train.sh --cfg_file ./cfgs/kitti_models/voxset_context_awar.yaml
 ```
 ### 5. Test with a pretrained model
