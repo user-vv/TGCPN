@@ -1,24 +1,3 @@
-## Voxel Set Transformer: A Set-to-Set Approach to 3D Object Detection from Point Clouds (CVPR2022)[\[paper\]](https://www4.comp.polyu.edu.hk/~cslzhang/paper/VoxSeT_cvpr22.pdf)
-
-**Authors**: [Chenhang He](https://github.com/skyhehe123), Ruihuang Li, [Shuai Li](https://github.com/strongwolf), [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/).
-
-This project is built on [OpenPCDet](https://github.com/open-mmlab/OpenPCDet).
-
-## Updates
-2022-04-09: Add waymo config and multi-frame input. 
-
-The performance of VoxSeT (single-stage, single-frame) on Waymo valdation split (with 20% traning data) are as follows. The log file can be found [here](https://drive.google.com/file/d/1bsq2Fihz7EdnZdJYVhfr6bL8gx_Vz0Rd/view?usp=sharing).
-
-|         |    Car AP/APH | Ped AP/APH | Cyc AP/APH  | 
-|---------|--------|--------|--------|
-|  Level 1 |   72.10/71.59 | 77.94/69.58  |  69.88/68.54  |
-|  Level 2 |   63.62/63.17 | 70.20/62.51  |  67.31/66.02  |
-
-
-## Introduction
-<img src="diagram.jpg" alt="drawing" width="500"/>
-Transformer has demonstrated promising performance in many 2D vision tasks. However, it is cumbersome to compute the self-attention on large-scale point cloud data because point cloud is a long sequence and unevenly distributed in 3D space. To solve this issue, existing methods usually compute self-attention locally by grouping the points into clusters of the same size, or perform convolutional self-attention on a discretized representation. However, the former results in stochastic point dropout, while the latter typically has narrow attention fields. In this paper, we propose a novel voxel-based architecture, namely Voxel Set Transformer (VoxSeT), to detect 3D objects from point clouds by means of set-to-set translation. VoxSeT is built upon a voxel-based set attention (VSA) module, which reduces the self-attention in each voxel by two cross attentions and models features in a hidden space induced by a group of latent codes. With the VSA module, VoxSeT can manage voxelized point clusters with arbitrary size in a wide range, and process them in parallel with linear complexity. The proposed VoxSeT integrates the high performance of transformer with the efficiency of voxel-based model, which can be used as a good alternative to the convolutional and point-based backbones.
-
 ### 1. Recommended Environment
 
 - Linux (tested on Ubuntu 16.04)
@@ -75,30 +54,21 @@ The runtime is about **33 ms** per sample.
 
 ### 5. Train
 
-- Train with a single GPU
+- Train with a single GPU （cfg文件为voxset_context_awar，3Dbackbone在VoxSeT\pcdet\models\backbones_3d\vfe）
 
 ```shell
-python train.py --cfg_file tools/cfgs/kitti_models/voxset.yaml
+python train.py --cfg_file tools/cfgs/kitti_models/voxset_context_awar.yaml
 ```
 
 - Train with multiple GPUs 
 
 ```shell
 cd VoxSeT/tools
-bash scripts/dist_train.sh --cfg_file ./cfgs/kitti_models/voxset.yaml
+bash scripts/dist_train.sh --cfg_file ./cfgs/kitti_models/voxset_context_awar.yaml
 ```
 ### 6. Test with a pretrained model
 
 ```shell
 cd VoxSeT/tools
 python test.py --cfg_file --cfg_file ./cfgs/kitti_models/voxset.yaml --ckpt ${CKPT_FILE}
-```
-### Citation
-```
-@inproceedings{he2022voxset,
-  title={Voxel Set Transformer: A Set-to-Set Approach to 3D Object Detection from Point Clouds},
-  author={Chenhang He, Ruihuang Li, Shuai Li and Lei Zhang},
-  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  year={2022}
-}
 ```
